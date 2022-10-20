@@ -5,6 +5,7 @@ import com.nestdigital.xyzbackend.Model.StudentModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -25,5 +26,13 @@ public class StudentController {
     @GetMapping("/viewstudent")
     public List<StudentModel>viewstudent(){
         return (List<StudentModel>) dao.findAll();
+    }
+
+    @CrossOrigin(origins = "*")
+    @Transactional
+    @PostMapping(path = "/deletestudent",consumes = "application/json",produces = "application/json")
+    public String deleteStudent(@RequestBody StudentModel student){
+        dao.deleteStudentById(student.getId());
+        return "{status:'success'}";
     }
 }
